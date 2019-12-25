@@ -1,6 +1,6 @@
 {
     "apps": [{
-        "name": "jieshao-dev",
+        "name": "node_project",
         "cwd": "./",
         "script": "./app.js",
         "env": {
