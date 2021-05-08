@@ -49,7 +49,7 @@ app.use(koaLogger())
 app.use(router.routes()).use(router.allowedMethods())
 
 // 启动app
-const port = parseInt(process.env.PORT) + parseInt(process.env.INSTANCE_ID) 
+const port = parseInt(process.env.PORT) + parseInt(process.env.INSTANCE_ID)
 app.listen(port, _ => {
     logger.success('server', `App (pro) is going to be running on port ${port}.`)
 })
