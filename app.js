@@ -49,15 +49,15 @@ app.use(koaLogger())
 app.use(router.routes()).use(router.allowedMethods())
 
 // 启动app
-const port = parseInt(process.env.PORT) + parseInt(process.env.INSTANCE_ID)
-app.listen(port, _ => {
-    logger.success('server', `App (pro) is going to be running on port ${port}.`)
-})
+// const port = parseInt(process.env.PORT) + parseInt(process.env.INSTANCE_ID)
+// app.listen(port, _ => {
+//     logger.success('server', `App (pro) is going to be running on port ${port}.`)
+// })
 
 // 捕获promise中未捕获的异常, try catch 对于 async await的promise是有效的，这里用不到了
-// process.on('unhandledRejection', (reason, p) => {
-//     logger.error('Unhandled Rejection', `position: ${p}, reason: ${reason}`)
-// });
-// app.listen(7001, _ => {
-//     logger.success('server', 'App (pro) is going to be running on port 7001.');
-// });
+process.on('unhandledRejection', (reason, p) => {
+    logger.error('Unhandled Rejection', `position: ${p}, reason: ${reason}`)
+});
+app.listen(7001, _ => {
+    logger.success('server', 'App (pro) is going to be running on port 7001.');
+});
