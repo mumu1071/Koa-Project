@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const PointSchema = require('../../models/point')
 
-const db = 'mongodb://localhost/test'
+// const db = 'mongodb://localhost/test'
+const db = 'mongodb://47.99.187.0/dhgate'
 mongoose.connect(db, (err) => {
     if (err) {
         console.log("mongodb connect fail")

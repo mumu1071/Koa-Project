@@ -13,6 +13,6 @@ const PointSchema = new Schema({
     point: mongoose.Schema.Types.Point,
 
 })
-const pointSchema = mongoose.model('PointSchema', PointSchema, 'RegionPoint')
+const pointSchema = mongoose.model('PointSchema', PointSchema, 'MapPoint')
 
 module.exports = pointSchema
