@@ -12,12 +12,12 @@ mongoose.connect(db, (err) => {
 
 class MongoDBTest {
     async findAll() {
-        let list = await PointSchema.find({}).exec();
+        let list = await PointSchema.find({}).limit(20).exec();
         let result = {
             "type": "FeatureCollection",
             "features": list
         }
-        console.info(result);
+        console.info(JSON.stringify(result));
         return result
     }
 

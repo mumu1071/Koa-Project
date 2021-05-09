@@ -1,19 +1,17 @@
 'use strict'
 
 const mongoose = require('mongoose')
+const GeoJSON = require('mongoose-geojson-schema');
 const Schema = mongoose.Schema;
 
 const PointSchema = new Schema({
-    _id: Schema.Types.ObjectId,
-    type: String,
-    properties: {
-        eventid: Number,
-        city: String
+    _id: {
+        type: Schema.Types.ObjectId,
+        select: false
     },
-    geometry: {
-        type: String,
-        coordinates: {type: [Number], index: '2dsphere'}
-    }
+    any: mongoose.Schema.Types.GeoJSON,
+    point: mongoose.Schema.Types.Point,
+
 })
 const pointSchema = mongoose.model('PointSchema', PointSchema, 'RegionPoint')
 

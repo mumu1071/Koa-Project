@@ -11,11 +11,11 @@ class MapController extends BaseController {
     }
 
     async region(ctx, next) {
-        let result = await PointSchema.find({}).exec();
+        let result = await PointSchema.find({}).limit(20).exec();
         console.info(result);
         this._success(ctx, result)
     }
-    
+
 }
 
 const mapController = new MapController()
