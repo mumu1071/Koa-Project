@@ -9,6 +9,7 @@ const router = require('./routes/index');
 const Logger = require('./middlewares/logger')
 const koaLogger = require('./middlewares/koa-logger')
 const koaError = require('./middlewares/koa-error')
+const mongoose = require('mongoose')
 
 const logger = Logger({
     formatter(level, group, message) {
@@ -47,6 +48,16 @@ app.use(koaLogger())
 
 // 初始化路由
 app.use(router.routes()).use(router.allowedMethods())
+
+// 连接数据库
+const db = 'mongodb://47.99.187.0/dhgate'
+mongoose.connect(db, (err) => {
+    if (err) {
+        console.log("mongodb connect fail")
+    } else {
+        console.log("mongodb connect success");
+    }
+})
 
 // 启动app
 // const port = parseInt(process.env.PORT) + parseInt(process.env.INSTANCE_ID)

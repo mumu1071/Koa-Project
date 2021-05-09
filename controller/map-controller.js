@@ -1,8 +1,7 @@
 'use strict'
 
 const BaseController = require('./base-controller')
-
-const MongoDB = require('./util/mongo-db')
+const PointSchema = require('../models/point')
 
 class MapController extends BaseController {
 
@@ -12,10 +11,11 @@ class MapController extends BaseController {
     }
 
     async region(ctx, next) {
-        let result = await MongoDB().findAll("map", {});
+        let result = await PointSchema.find({}).exec();
         console.info(result);
         this._success(ctx, result)
     }
+    
 }
 
 const mapController = new MapController()
