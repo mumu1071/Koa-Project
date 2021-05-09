@@ -2,6 +2,8 @@
 
 const BaseController = require('./base-controller')
 
+const MongoDB = require('./util/mongo-db')
+
 class MapController extends BaseController {
 
     constructor() {
@@ -10,9 +12,8 @@ class MapController extends BaseController {
     }
 
     async region(ctx, next) {
-        let result = {
-            url: 'http://gank.io/api/data/Android/10/1'
-        };
+        let result = await MongoDB().findAll("map", {});
+        console.info(result);
         this._success(ctx, result)
     }
 }
