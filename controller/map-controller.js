@@ -10,6 +10,7 @@ class MapController extends BaseController {
         super()
         this.terrorist = this.terrorist.bind(this)
         this.protest = this.protest.bind(this)
+        this.region = this.region.bind(this)
     }
 
     async terrorist(ctx, next) {
@@ -19,6 +20,15 @@ class MapController extends BaseController {
 
     async protest(ctx, next) {
         let result = await ProtestMapSchema.find({}).limit(10000).exec();
+        this._success(ctx, result)
+    }
+
+    async region(ctx, next) {
+        const result = []
+        let resultProtest = await ProtestMapSchema.find({}).limit(2).exec();
+        let resultTerrorist = await TerroristMapSchema.find({}).limit(2).exec();
+        result.push(...resultProtest)
+        result.push(...resultTerrorist)
         this._success(ctx, result)
     }
 
