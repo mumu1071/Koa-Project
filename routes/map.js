@@ -9,6 +9,8 @@ const mapRouter = (router) => {
     router.post('/api/map/protest', mapController.protest)
     //全部
     router.post('/api/map/region', mapController.region)
+    //最新
+    router.post('/api/map/latest', mapController.latest)
 };
 
 module.exports = mapRouter
