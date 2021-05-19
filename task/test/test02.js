@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-const PointSchema = require('../../models/point')
+const PointSchema = require('../../models/protest_map')
+const async = require("async")
 
 // const db = 'mongodb://localhost/test'
 const db = 'mongodb://47.99.187.0/dhgate'
@@ -22,8 +23,30 @@ class MongoDBTest {
         return result
     }
 
+    latest() {
+        async.parallel([
+            function (callback) {
+                PointSchema.find({}, null, {limit: 40}, function (err, res) {
+                    callback(null, res)
+                })
+            },
+            function (callback) {
+                PointSchema.find({}, null, {limit: 60}, function (err, res) {
+                    callback(null, res)
+                })
+            },
+        ], function (err, res) {
+            if (res && res.length > 1) {
+                const result = []
+                result.push(...res[0])
+                result.push(...res[1])
+                console.info(result);
+            }
+
+        })
+    }
+
 }
 
 let mongoDBTest = new MongoDBTest();
-mongoDBTest.findAll().then(r => {
-})
+let aa = mongoDBTest.latest()
