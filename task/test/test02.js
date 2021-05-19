@@ -26,12 +26,12 @@ class MongoDBTest {
     latest() {
         async.parallel([
             function (callback) {
-                PointSchema.find({}, null, {limit: 40}, function (err, res) {
+                PointSchema.find({}, {'_id': 0, 'properties.scite': 0}, {limit: 1}, function (err, res) {
                     callback(null, res)
                 })
             },
             function (callback) {
-                PointSchema.find({}, null, {limit: 60}, function (err, res) {
+                PointSchema.find({}, null, {limit: 1}, function (err, res) {
                     callback(null, res)
                 })
             },

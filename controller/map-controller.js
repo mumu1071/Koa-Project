@@ -33,7 +33,8 @@ class MapController extends BaseController {
             this._success(ctx, result)
             return
         }
-        const tempResult = await this.getData(10000, 10000)
+        const projection = {'_id': 0, 'properties.scite': 0}
+        const tempResult = await this.getData(projection, 10000, 10000)
         if (tempResult && tempResult.length > 0) {
             mcache.set('region', tempResult)
             this._success(ctx, tempResult)
@@ -48,7 +49,7 @@ class MapController extends BaseController {
             this._success(ctx, result)
             return
         }
-        const tempResult = await this.getData(40, 60)
+        const tempResult = await this.getData(null, 40, 60)
         if (tempResult && tempResult.length > 0) {
             mcache.set('latest', tempResult)
             this._success(ctx, tempResult)
@@ -58,16 +59,16 @@ class MapController extends BaseController {
     }
 
 
-    async getData(protestLimit, terroristLimit) {
+    async getData(projection, protestLimit, terroristLimit) {
         const requestPromise = new Promise((resolve, reject) => {
             async.parallel([
                 function (callback) {
-                    ProtestMapSchema.find({}, null, {limit: protestLimit}, function (err, res) {
+                    ProtestMapSchema.find({}, projection, {limit: protestLimit}, function (err, res) {
                         callback(null, res)
                     })
                 },
                 function (callback) {
-                    TerroristMapSchema.find({}, null, {limit: terroristLimit}, function (err, res) {
+                    TerroristMapSchema.find({}, projection, {limit: terroristLimit}, function (err, res) {
                         callback(null, res)
                     })
                 },
