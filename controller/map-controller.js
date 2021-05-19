@@ -3,6 +3,7 @@
 const BaseController = require('./base-controller')
 const TerroristMapSchema = require('../models/terrorist_map')
 const ProtestMapSchema = require('../models/protest_map')
+const mcache = require('../core/cache')
 
 class MapController extends BaseController {
 
@@ -25,20 +26,34 @@ class MapController extends BaseController {
     }
 
     async region(ctx, next) {
-        const result = []
+        let result = []
+        result = mcache.get('region')
+        if (result && result.length > 0) {
+            this._success(ctx, result)
+            return
+        }
+        result = []
         let resultProtest = await ProtestMapSchema.find({}).limit(10000).exec();
         let resultTerrorist = await TerroristMapSchema.find({}).limit(10000).exec();
         result.push(...resultProtest)
         result.push(...resultTerrorist)
+        mcache.set('region', result)
         this._success(ctx, result)
     }
 
     async latest(ctx, next) {
-        const result = []
+        let result = []
+        result = mcache.get('latest')
+        if (result && result.length > 0) {
+            this._success(ctx, result)
+            return
+        }
+        result = []
         let resultProtest = await ProtestMapSchema.find().limit(40).exec();
         let resultTerrorist = await TerroristMapSchema.find().limit(60).exec();
         result.push(...resultProtest)
         result.push(...resultTerrorist)
+        mcache.set('latest', result)
         this._success(ctx, result)
     }
 
