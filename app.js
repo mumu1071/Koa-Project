@@ -50,14 +50,14 @@ app.use(koaLogger())
 app.use(router.routes()).use(router.allowedMethods())
 
 // 连接数据库
-const db = 'mongodb://47.99.187.0/dhgate'
-mongoose.connect(db, (err) => {
+mongoose.connect('mongodb://rookieyang:yangjie1071@47.99.187.0:27017/dhgate', (err) => {
     if (err) {
         console.log("mongodb connect fail")
     } else {
         console.log("mongodb connect success");
     }
-})
+});
+
 
 // 启动app
 const port = parseInt(process.env.PORT) + parseInt(process.env.INSTANCE_ID)
