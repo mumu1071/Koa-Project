@@ -12,9 +12,9 @@ const mapRouter = (router) => {
     //罢工风险
     router.post('/api/map/strike', mapController.strike)
     //禁运风险
-    router.post('/api/map/strike', mapController.embargo)
+    router.post('/api/map/embargo', mapController.embargo)
     //制裁风险
-    router.post('/api/map/strike', mapController.sanction)
+    router.post('/api/map/sanction', mapController.sanction)
 
     //全部
     router.post('/api/map/region', mapController.region)
