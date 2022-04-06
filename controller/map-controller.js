@@ -130,6 +130,10 @@ class MapController extends BaseController {
         if (res && res.length > 1) {
             result.push(...res[0])
             result.push(...res[1])
+            result.push(...res[2])
+            result.push(...res[3])
+            result.push(...res[4])
+            result.push(...res[5])
         }
         return result
     }
