@@ -13,6 +13,10 @@
  * ES7:没啥
  * ES8: async await
  */
+/**
+ * 基本语法
+ * https://zh.javascript.info/
+ */
 
 //单行注释
 
