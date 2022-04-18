@@ -1,6 +1,7 @@
 const request = require("request");
+const async = require("async");
 
-class NetTest {
+class RequestNetTest {
     //测试test请求
     testNetGet() {
         let options = {
@@ -41,6 +42,7 @@ class NetTest {
         });
     }
 
+    //测试put请求
     testNetPut() {
         let options = {
             url: 'http://xxxxxxxx.s3.us-east-1.amazonaws.com',// ,
@@ -61,9 +63,68 @@ class NetTest {
     }
 }
 
+let requestNetTest = new RequestNetTest();
+requestNetTest.testNetGet();
 
-let netTest = new NetTest();
-netTest.testNetGet();
+class FetchNetTest {
+    async testNetGet() {
+        let url = 'https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits';
+        let response = await fetch(url, {
+            headers: {
+                Authentication: 'secret'
+            }
+        });
+        let commits = await response.json(); // 读取 response body，并将其解析为 JSON
+        let text = await response.text(); // 将 response body 读取为文本
+        alert(commits[0].author.login);
+    }
+
+    testNetGet() {
+        fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits')
+            .then(response => response.json())
+            .then(commits => alert(commits[0].author.login));
+    }
+
+    async testNetPost() {
+        let user = {
+            name: 'John',
+            surname: 'Smith'
+        };
+        let response = await fetch('/article/fetch/post/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(user)
+        });
+        let result = await response.json();
+        alert(result.message);
+    }
+
+    testNetParams() {
+        let promise = fetch(url, {
+            method: "GET", // POST，PUT，DELETE，等。
+            headers: {
+                // 内容类型 header 值通常是自动设置的
+                // 取决于 request body
+                "Content-Type": "text/plain;charset=UTF-8"
+            },
+            body: undefined, // string，FormData，Blob，BufferSource，或 URLSearchParams
+            referrer: "about:client", // 或 "" 以不发送 Referer header，
+            // 或者是当前源的 url
+            referrerPolicy: "no-referrer-when-downgrade", // no-referrer，origin，same-origin...
+            mode: "cors", // same-origin，no-cors
+            credentials: "same-origin", // omit，include
+            cache: "default", // no-store，reload，no-cache，force-cache，或 only-if-cached
+            redirect: "follow", // manual，error
+            integrity: "", // 一个 hash，像 "sha256-abcdef1234567890"
+            keepalive: false, // true
+            signal: undefined, // AbortController 来中止请求
+            window: window // null
+        });
+    }
+
+}
 
 
 

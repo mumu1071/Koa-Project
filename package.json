@@ -11,8 +11,10 @@
   "dependencies": {
     "@koa/cors": "^3.0.0",
     "async": "^3.2.0",
+    "cheerio": "^1.0.0-rc.10",
     "crypto": "^1.0.1",
     "excel-export": "^0.5.1",
+    "iconv-lite": "^0.6.3",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
     "koa-passport": "^4.1.3",
