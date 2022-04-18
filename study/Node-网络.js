@@ -1,6 +1,7 @@
 const request = require("request");
 const async = require("async");
 
+
 class RequestNetTest {
     //测试test请求
     testNetGet() {
@@ -14,7 +15,6 @@ class RequestNetTest {
             //     securityOptions: 'SSL_OP_NO_SSLv3'
             // }
         };
-
         request.get(options, function (err, response, body) {
             console.info(response.body);
         });
@@ -51,8 +51,7 @@ class RequestNetTest {
                 'x-amz-content-sha256': 'UNSIGNED-PAYLOAD',
                 'x-amz-date': date,
                 Authorization: result
-            },
-            body: bitmap
+            }, body: bitmap
         };
 
         request.put(options, function (error, response, body) {
@@ -87,15 +86,12 @@ class FetchNetTest {
 
     async testNetPost() {
         let user = {
-            name: 'John',
-            surname: 'Smith'
+            name: 'John', surname: 'Smith'
         };
         let response = await fetch('/article/fetch/post/user', {
-            method: 'POST',
-            headers: {
+            method: 'POST', headers: {
                 'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(user)
+            }, body: JSON.stringify(user)
         });
         let result = await response.json();
         alert(result.message);
@@ -108,8 +104,7 @@ class FetchNetTest {
                 // 内容类型 header 值通常是自动设置的
                 // 取决于 request body
                 "Content-Type": "text/plain;charset=UTF-8"
-            },
-            body: undefined, // string，FormData，Blob，BufferSource，或 URLSearchParams
+            }, body: undefined, // string，FormData，Blob，BufferSource，或 URLSearchParams
             referrer: "about:client", // 或 "" 以不发送 Referer header，
             // 或者是当前源的 url
             referrerPolicy: "no-referrer-when-downgrade", // no-referrer，origin，same-origin...
@@ -126,6 +121,54 @@ class FetchNetTest {
 
 }
 
+class AxiosNetTest {
+    initAxios() {
+        const timeout = 10000;
+        const secretKey = '4tRhjFDkC2RnZ74yXhd2Ta4mwJsHEGS4';
+        const request = axios.create({timeout});
+        request.interceptors.response.use(response => response.data, (error) => {
+            console.log(error)
+        });
+        request.interceptors.request.use(request => {
+            if (request.params) {
+                Object.keys(request.params).forEach(key => {
+                    if (typeof request.params[key] === 'object') {
+                        request.params[key] = JSON.stringify(request.params[key]);
+                    }
+                });
+            }
+
+            const query = request.params || {};
+            const body = request.data || {};
+            const method = request.method.toUpperCase();
+            const path = url.parse(request.url).path;
+
+            const {signature, timestamp, stuffKeys} = sign({
+                payload: {
+                    body, query,
+                }, secretKey, method, path, ignoreKeys: ['file'],
+            });
+
+            request.headers['mg-sig'] = signature;
+            request.headers['mg-ts'] = timestamp.getTime();
+            request.headers['mg-sk'] = stuffKeys;
+
+            return request;
+        });
+        return request;
+    }
+}
+
+let netTest = new AxiosNetTest();
+const requestTemp = netTest.initAxios();
+requestTemp('http://gank.io/api/data/Android/10/1', {
+    method: 'get'
+}).then(function (response) {
+    console.log(response);
+})
+    .catch(function (error) {
+        console.log(error);
+    });
 
 
 

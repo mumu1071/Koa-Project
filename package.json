@@ -11,6 +11,7 @@
   "dependencies": {
     "@koa/cors": "^3.0.0",
     "async": "^3.2.0",
+    "axios": "^0.26.1",
     "cheerio": "^1.0.0-rc.10",
     "crypto": "^1.0.1",
     "excel-export": "^0.5.1",
@@ -25,6 +26,7 @@
     "mongoose": "^5.12.7",
     "mongoose-geojson-schema": "^2.1.5",
     "mysql2": "^1.6.5",
+    "node-fetch": "^2.6.2",
     "passport-local": "^1.0.0",
     "pm2": "^3.5.0",
     "request": "^2.88.0",

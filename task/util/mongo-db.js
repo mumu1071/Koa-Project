@@ -23,7 +23,6 @@ class MongoDB {
         return MongoDB.instance;
     }
 
-
     /**
      * 获取数据库连接，请勿调用
      */
@@ -46,7 +45,6 @@ class MongoDB {
         }
         return this.dbClient;
     }
-
 
     /**
      * 查询所有数据
@@ -263,6 +261,4 @@ class MongoDB {
     }
 }
 
-module.exports = function () {
-    return MongoDB.getInstance();
-};
+module.exports = MongoDB.getInstance()

@@ -1,6 +1,6 @@
 const request = require("request");
 const {transform, crypto} = require('xx-utils');
-const { sign } = require('show-your-ticket');
+const { sign: signTest } = require('show-your-ticket');
 const {key, expires} = require('../monge/setting').requestSignature.root;
 
 
