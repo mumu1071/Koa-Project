@@ -16,35 +16,6 @@ class Test {
         });
     }
 
-    parseHtml(html) {
-        if (!html) {
-            console.log('无数据传入！');
-            return;
-        }
-        const $ = cheerio.load(html);
-        // 根据id获取轮播图列表信息
-        const slideList = $('#foucsSlideList');
-        // 轮播图数据
-        const slideListData = [];
-        /* 轮播图列表信息遍历 */
-        slideList.find('li').each(function (item) {
-            const pic = $(this);
-            // 找到a标签并获取href属性
-            const pic_href = pic.find('a').attr('href');
-            // 找到a标签的子标签img并获取_src
-            const pic_src = pic.find('a').children('img').attr('_src');
-            // 找到a标签的子标签img并获取alt
-            const pic_message = pic.find('a').children('img').attr('alt');
-            // 向数组插入数据
-            slideListData.push({
-                pic_href: pic_href,
-                pic_message: pic_message,
-                pic_src: pic_src
-            });
-        });
-        // 返回轮播图列表信息
-        return slideListData;
-    }
 
     httpNet(url) {
         http.get(url, (res) => {
@@ -74,34 +45,76 @@ class Test {
     }
 
     fetchNet(url) {
-        fetch(url, {})
-            .then(res=>res.text())
-            .then(json=>console.log(json));
+        fetch(url, {
+            "headers": {
+                "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+                "accept-language": "zh-CN,zh;q=0.9",
+                "cache-control": "max-age=0",
+                "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"",
+                "sec-ch-ua-mobile": "?0",
+                "sec-ch-ua-platform": "\"macOS\"",
+                "sec-fetch-dest": "document",
+                "sec-fetch-mode": "navigate",
+                "sec-fetch-site": "none",
+                "sec-fetch-user": "?1",
+                "upgrade-insecure-requests": "1"
+            },
+            "referrerPolicy": "strict-origin-when-cross-origin",
+            "body": null,
+            "method": "GET",
+            "mode": "cors",
+            "credentials": "include"
+        })
+            .then(json => {
+                console.log(json)
+            });
     }
 
     testParseHtml() {
-        const html = '<ul id="foucsSlideList">\n' +
-            '<li><a href="http://www.ziroom."><img src="http://www.zne.png" alt="北京租房" ></a></li>\n' +
-            '<li><a href="http://www.ziroom."><img src="http://www.zne.png" alt="北京租房" ></a></li>\n' +
-            '</ul>';
+        const html = '';
         const slideListData = this.parseHtml(html);
         console.info(JSON.stringify(slideListData));
     }
 
+    parseHtml(html) {
+        html = html.replaceAll("box movie_list", "movie_list")
+        const $ = cheerio.load(html);
+        // 根据id获取轮播图列表信息
+        const slideList = $('.movie_list').children('ul')
+        // 轮播图数据
+        const slideListData = [];
+        /* 轮播图列表信息遍历 */
+        slideList.find('li').each(function (item) {
+            const pic = $(this);
+            // 找到a标签并获取href属性
+            const pic_href = pic.find('a').attr('href');
+            // 找到a标签的子标签img并获取_src
+            const pic_src = pic.find('a').children('img').attr('src');
+            // 找到a标签的子标签img并获取alt
+            const title = pic.find('a').children('img').attr('title');
+            // 向数组插入数据
+            slideListData.push({
+                pic_href: pic_href,
+                pic_src: pic_src,
+                title: title
+            });
+        });
+        // 返回轮播图列表信息
+        return slideListData;
+    }
+
     demoTest() {
-        let url = 'http://www.ziroom.com/';
-        for (let i = 1; i < 100; i++) {
+        let url = 'https://bb9055.com/video/video_list.html?video_type=1&page_index=';
+        for (let i = 2; i < 3; i++) {
             url += i
             console.log("请求网络 " + url);
-            this.httpNet(url);
-            this.requestNet(url);
             this.fetchNet(url);
         }
     }
 }
 
 let test = new Test();
-test.fetchNet('http://www.baidu.com/');
+test.demoTest();
 
 
 
