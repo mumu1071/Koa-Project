@@ -3,6 +3,7 @@ const request = require("request");
 const fetch = require('node-fetch')
 const cheerio = require('cheerio');
 const mongoDB = require('../util/mongo-db')
+const async = require("async");
 
 class Test {
 
@@ -36,37 +37,30 @@ class Test {
     }
 
     requestNet(url) {
-        let options = {
-            url: 'http://gank.io/api/data/Android/10/1'
-        };
-        request.get(url, options, function (err, response, body) {
-            console.info(response.body);
+        request.get(url, {}, function (err, response, body) {
+            if(err){
+                console.info(err);
+            }else {
+                console.info(response.body);
+            }
         });
     }
 
     fetchNet(url) {
-        fetch(url, {
-            "headers": {
-                "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-                "accept-language": "zh-CN,zh;q=0.9",
-                "cache-control": "max-age=0",
-                "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"",
-                "sec-ch-ua-mobile": "?0",
-                "sec-ch-ua-platform": "\"macOS\"",
-                "sec-fetch-dest": "document",
-                "sec-fetch-mode": "navigate",
-                "sec-fetch-site": "none",
-                "sec-fetch-user": "?1",
-                "upgrade-insecure-requests": "1"
-            },
-            "referrerPolicy": "strict-origin-when-cross-origin",
-            "body": null,
-            "method": "GET",
-            "mode": "cors",
-            "credentials": "include"
+        fetch(url).then(response => {
+            return response.json().then(data => {
+                if (response.ok) {
+                    return data;
+                } else {
+                    return Promise.reject({status: response.status, data});
+                }
+            });
         })
-            .then(json => {
-                console.log(json)
+            .then(result => {
+                console.log('success:', result)
+            })
+            .catch(error => {
+                console.log('error:', error)
             });
     }
 
@@ -100,6 +94,7 @@ class Test {
             });
         });
         // 返回轮播图列表信息
+        console.info(JSON.stringify(slideListData))
         return slideListData;
     }
 
@@ -108,13 +103,14 @@ class Test {
         for (let i = 2; i < 3; i++) {
             url += i
             console.log("请求网络 " + url);
-            this.fetchNet(url);
+            this.fetchNet(url).then(r => {
+            });
         }
     }
 }
 
 let test = new Test();
-test.demoTest();
+test.requestNet("https://bb9055.com/video/video_list.html?video_type=1&page_index=2");
 
 
 
