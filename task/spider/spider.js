@@ -103,8 +103,7 @@ class Test {
         for (let i = 2; i < 3; i++) {
             url += i
             console.log("请求网络 " + url);
-            this.fetchNet(url).then(r => {
-            });
+
         }
     }
 }
