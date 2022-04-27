@@ -44,7 +44,7 @@ class MongoDBTest {
         //  第一条数据
         // result = await TestSchema.findOne().exec();
         // 全部数据
-        // result = await TestSchema.find().exec();
+        result = await TestSchema.find().exec().sort({});
         // 指定字段的数据（除了 _id 你不能在一个对象中同时指定 0 和 1）
         // result = await TestSchema.find({}, {"_id": 0, 'name.age': 1}, {}).exec();
         // 指定条件查询

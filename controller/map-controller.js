@@ -27,32 +27,32 @@ class MapController extends BaseController {
     }
 
     async terrorist(ctx, next) {
-        let result = await TerroristMapSchema.find({}).limit(10000).exec();
+        let result = await TerroristMapSchema.find({}).limit(10000).sort({"properties.dateTime": -1}).exec();
         this._success(ctx, result)
     }
 
     async protest(ctx, next) {
-        let result = await ProtestMapSchema.find({}).limit(10000).exec();
+        let result = await ProtestMapSchema.find({}).limit(10000).sort({"properties.dateTime": -1}).exec();
         this._success(ctx, result)
     }
 
     async politics(ctx, next) {
-        let result = await PoliticsMapSchema.find({}).limit(10000).exec();
+        let result = await PoliticsMapSchema.find({}).limit(10000).sort({"properties.dateTime": -1}).exec();
         this._success(ctx, result)
     }
 
     async strike(ctx, next) {
-        let result = await StrikeMapSchema.find({}).limit(10000).exec();
+        let result = await StrikeMapSchema.find({}).limit(10000).sort({"properties.dateTime": -1}).exec();
         this._success(ctx, result)
     }
 
     async embargo(ctx, next) {
-        let result = await EmbargoMapSchema.find({}).limit(10000).exec();
+        let result = await EmbargoMapSchema.find({}).limit(10000).sort({"properties.dateTime": -1}).exec();
         this._success(ctx, result)
     }
 
     async sanction(ctx, next) {
-        let result = await SanctionMapSchema.find({}).limit(10000).exec();
+        let result = await SanctionMapSchema.find({}).limit(10000).sort({"properties.dateTime": -1}).exec();
         this._success(ctx, result)
     }
 
@@ -92,32 +92,50 @@ class MapController extends BaseController {
         const requestPromise = new Promise((resolve, reject) => {
             async.parallel([
                 function (callback) {
-                    ProtestMapSchema.find({}, projection, {limit: limit}, function (err, res) {
+                    ProtestMapSchema.find({}, projection, {
+                        limit: limit,
+                        sort: {"properties.dateTime": -1}
+                    }, function (err, res) {
                         callback(null, res)
                     })
                 },
                 function (callback) {
-                    TerroristMapSchema.find({}, projection, {limit: limit}, function (err, res) {
+                    TerroristMapSchema.find({}, projection, {
+                        limit: limit,
+                        sort: {"properties.dateTime": -1}
+                    }, function (err, res) {
                         callback(null, res)
                     })
                 },
                 function (callback) {
-                    PoliticsMapSchema.find({}, projection, {limit: limit}, function (err, res) {
+                    PoliticsMapSchema.find({}, projection, {
+                        limit: limit,
+                        sort: {"properties.dateTime": -1}
+                    }, function (err, res) {
                         callback(null, res)
                     })
                 },
                 function (callback) {
-                    EmbargoMapSchema.find({}, projection, {limit: limit}, function (err, res) {
+                    EmbargoMapSchema.find({}, projection, {
+                        limit: limit,
+                        sort: {"properties.dateTime": -1}
+                    }, function (err, res) {
                         callback(null, res)
                     })
                 },
                 function (callback) {
-                    SanctionMapSchema.find({}, projection, {limit: limit}, function (err, res) {
+                    SanctionMapSchema.find({}, projection, {
+                        limit: limit,
+                        sort: {"properties.dateTime": -1}
+                    }, function (err, res) {
                         callback(null, res)
                     })
                 },
                 function (callback) {
-                    StrikeMapSchema.find({}, projection, {limit: limit}, function (err, res) {
+                    StrikeMapSchema.find({}, projection, {
+                        limit: limit,
+                        sort: {"properties.dateTime": -1}
+                    }, function (err, res) {
                         callback(null, res)
                     })
                 },

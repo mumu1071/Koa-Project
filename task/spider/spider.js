@@ -17,7 +17,6 @@ class Test {
         });
     }
 
-
     httpNet(url) {
         http.get(url, (res) => {
             let html = '';
