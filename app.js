@@ -59,16 +59,16 @@ mongoose.connect('mongodb://rookieyang:yangjie1071@47.99.187.0:27017/dhgate', (e
 });
 
 
-// 启动app
-const port = parseInt(process.env.PORT) + parseInt(process.env.INSTANCE_ID)
-app.listen(port, _ => {
-    logger.success('server', `App (pro) is going to be running on port ${port}.`)
-})
+// 启动app-线上
+// const port = parseInt(process.env.PORT) + parseInt(process.env.INSTANCE_ID)
+// app.listen(port, _ => {
+//     logger.success('server', `App (pro) is going to be running on port ${port}.`)
+// })
 
 // 捕获promise中未捕获的异常, try catch 对于 async await的promise是有效的，这里用不到了
 // process.on('unhandledRejection', (reason, p) => {
 //     logger.error('Unhandled Rejection', `position: ${p}, reason: ${reason}`)
 // });
-// app.listen(7001, _ => {
-//     logger.success('server', 'App (pro) is going to be running on port 7001.');
-// });
+app.listen(7001, _ => {
+    logger.success('server', 'App (pro) is going to be running on port 7001.');
+});
